@@ -19,20 +19,12 @@ def Caesar_Encrypting(user_input, shift, alphabet, output, result):
     return result
 
 def main(page):
-    page.title = "Flet counter example"
+    page.title = "Caesar_Encrypting"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
     t = ft.Text(value="shift: ", color="white")
-    page.controls.append(t)
-    
-    def button_clicked(e):
-        global shift
-        output_text.value = f"Shift value select: {color_dropdown.value}"
-        shift = int(color_dropdown.value)
-        page.update()
 
     output_text = ft.Text()
-    submit_btn = ft.ElevatedButton(text="Submit", on_click=button_clicked)
     color_dropdown = ft.Dropdown(
         width=100,
         options=[
@@ -71,7 +63,25 @@ def main(page):
             ft.dropdown.Option("33"),
         ],
     )
-    page.add(color_dropdown, submit_btn, output_text)
+    page.add(
+        ft.Row(
+            [
+                t,
+                color_dropdown,
+                
+            ],
+            alignment=ft.MainAxisAlignment.CENTER
+        )
+    )
+
+    page.add(
+        ft.Row(
+            [
+                output_text,
+            ],
+            alignment=ft.MainAxisAlignment.CENTER
+        )
+    )
 
     def btn_click(e):
         if not txt_name.value:
@@ -80,20 +90,75 @@ def main(page):
         else:
             user_input = txt_name.value
             page.clean()
-            page.add(ft.Text(f"encrypted text: {Caesar_Encrypting(user_input, shift, alphabet, output, result)}"))
+            shift = int(color_dropdown.value)
+            page.add(
+                ft.Row(
+                    [
+                        ft.Text(f"encrypted text: {Caesar_Encrypting(user_input, shift, alphabet, output, result)}"),
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER
+                )
+            )
             def back(e):
                 global user_input, output, result
                 page.clean()
-                page.add(color_dropdown, submit_btn, output_text, txt_name, encrypt_btn)
+                page.add(
+                    ft.Row(
+                        [
+                            t,
+                            color_dropdown,
+                            output_text,
+                            
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER
+                    )
+                )
+                page.add(
+                    ft.Row(
+                        [
+                            txt_name,
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER
+                    )
+                )
+                page.add(
+                    ft.Row(
+                        [
+                            encrypt_btn,
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER
+                    )
+                )
                 txt_name.value = ""
                 user_input = ""
                 output = []
                 result = ""
                 page.update()
-            page.add(ft.ElevatedButton("Back", on_click=back))
+            page.add(
+                ft.Row(
+                    [
+                        ft.ElevatedButton("Back", on_click=back),
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER
+                )
+            )
 
     txt_name = ft.TextField(label="encryption text")
     encrypt_btn = ft.ElevatedButton("encrypt", on_click=btn_click)
-    page.add(txt_name, encrypt_btn)
-    
+    page.add(
+        ft.Row(
+            [
+                txt_name,
+            ],
+            alignment=ft.MainAxisAlignment.CENTER
+        )
+    )
+    page.add(
+        ft.Row(
+            [
+                encrypt_btn,
+            ],
+            alignment=ft.MainAxisAlignment.CENTER
+        )
+    )
 ft.app(target=main)
